@@ -1,6 +1,6 @@
 {
   "name": "remark-bibliography",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "description": "Remark plugin for adding bibliographies to markdown.",
   "author": "Alex Shaw <alex.shaw.as@gmail.com>",

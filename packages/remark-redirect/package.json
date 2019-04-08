@@ -1,6 +1,6 @@
 {
   "name": "remark-redirect",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "description": "Remark plugin for changing links to markdown files to HTML files.",
   "author": "Alex Shaw <alex.shaw.as@gmail.com>",

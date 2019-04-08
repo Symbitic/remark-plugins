@@ -1,6 +1,6 @@
 {
   "name": "remark-meta",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "description": "Adds YAML/TOML metadata to a VFile.",
   "author": "Alex Shaw <alex.shaw.as@gmail.com>",
@@ -25,10 +25,10 @@
     "build": "babel --root-mode upward src --out-dir lib"
   },
   "dependencies": {
+    "js-yaml": "^3.13.0",
     "mdast-util-to-string": "^1.0.5",
     "toml": "^3.0.0",
     "unist-util-select": "^2.0.0",
-    "unist-util-visit": "^1.4.0",
-    "js-yaml": "^3.13.0"
+    "unist-util-visit": "^1.4.0"
   }
 }
