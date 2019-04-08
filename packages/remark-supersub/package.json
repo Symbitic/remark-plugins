@@ -1,0 +1,30 @@
+{
+  "name": "remark-supersub",
+  "version": "0.1.0",
+  "license": "MIT",
+  "description": "Remark plugin for adding subscript/superscript syntax.",
+  "author": "Alex Shaw <alex.shaw.as@gmail.com>",
+  "main": "lib/index.js",
+  "module": "src/index.js",
+  "files": [
+    "lib",
+    "src"
+  ],
+  "keywords": [
+    "remark",
+    "remark-plugin"
+  ],
+  "repository": {
+    "url": "https://github.com/Symbitic/remark-plugins/tree/master/packages/remark-",
+    "type": "git"
+  },
+  "engines": {
+    "node": ">=8"
+  },
+  "scripts": {
+    "build": "babel --root-mode upward src --out-dir lib"
+  },
+  "dependencies": {
+    "unist-util-visit": "^1.4.0"
+  }
+}

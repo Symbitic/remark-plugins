@@ -1,0 +1,31 @@
+{
+  "name": "remark-deflist",
+  "version": "0.1.0",
+  "license": "MIT",
+  "description": "Remark plugin for pandoc-style definition lists.",
+  "author": "Alex Shaw <alex.shaw.as@gmail.com>",
+  "main": "lib/index.js",
+  "module": "src/index.js",
+  "files": [
+    "lib",
+    "src"
+  ],
+  "keywords": [
+    "remark",
+    "remark-plugin"
+  ],
+  "repository": {
+    "url": "https://github.com/Symbitic/remark-plugins/tree/master/packages/remark-deflist",
+    "type": "git"
+  },
+  "engines": {
+    "node": ">=8"
+  },
+  "scripts": {
+    "build": "babel --root-mode upward src --out-dir lib"
+  },
+  "dependencies": {
+    "mdast-util-to-string": "^1.0.5",
+    "unist-util-visit": "^1.4.0"
+  }
+}

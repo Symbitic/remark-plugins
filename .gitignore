@@ -1,0 +1,15 @@
+*.ini
+.DS_Store
+/node_modules
+/packages/*/node_modules
+/packages/*/coverage
+/packages/*/.nyc_output
+/packages/*/lib
+/.nyc_output/*
+/coverage/*
+npm-debug.log
+lerna-debug.log
+.idea
+.c9
+.vscode
+/tmp
