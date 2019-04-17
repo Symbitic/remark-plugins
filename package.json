@@ -34,7 +34,7 @@
     "babel-jest": "^24.7.1",
     "babel-plugin-add-module-exports": "^1.0.0",
     "jest": "^24.7.1",
-    "lerna": "^3.13.2",
+    "lerna": "^3.13.3",
     "rehype-stringify": "^5.0.0",
     "remark-parse": "^6.0.3",
     "remark-rehype": "^4.0.0",
