@@ -3,6 +3,7 @@ module.exports = api => {
 
   return {
     presets: [ '@babel/preset-env' ],
+    plugins: [ 'babel-plugin-add-module-exports' ],
     comments: false
   }
 }

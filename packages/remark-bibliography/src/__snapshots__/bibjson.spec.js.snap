@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`bibjson should parse a basic entry 1`] = `
+Object {
+  "gregory2014": Object {
+    "DOI": "10.1186/1758-2946-3-47",
+    "URL": "http://www.gameenginebook.com/",
+    "author": Array [
+      Object {
+        "family": "Gregory",
+        "given": "Jason",
+      },
+    ],
+    "id": "gregory2014",
+    "issued": Object {
+      "date-parts": Array [
+        Array [
+          2014,
+        ],
+      ],
+    },
+    "publisher": "CRC Press",
+    "title": "Game Engine Architecture, Second Edition.",
+    "type": "book",
+  },
+}
+`;

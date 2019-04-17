@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`remark-bibliography should process a basic bibliography 1`] = `
+"<p>This is a citation: <a href=\\"#ref-singh2016\\" class=\\"citation\\">(Singh 2016)</a>.</p>
+<div class=\\"references\\"><h2>References</h2><ol class=\\"ref-list\\">
+<li id=\\"ref-moller2008\\" class=\\"reference\\">Akenine-Moller, Thomas, Eric Haines, and Naty Hoffman. 2008. <em>Real Time Rendering, Third Edition</em>. CRC Press. http://www.realtimerendering.com/.</li>
+<li id=\\"ref-gregory2014\\" class=\\"reference\\">Gregory, Jason. 2014. <em>Game Engine Architecture, Second Edition.</em> CRC Press. https://doi.org/10.1186/1758-2946-3-47.</li>
+<li id=\\"ref-singh2016\\" class=\\"reference\\">Singh, Parminder. 2016. <em>Vulkan Essentials</em>. Packt Publishing. https://www.packtpub.com/application-development/vulkan-essentials.</li>
+</ol></div>"
+`;

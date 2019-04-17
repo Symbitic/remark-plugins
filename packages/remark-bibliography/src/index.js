@@ -1,169 +1,76 @@
 /**
  * @fileoverview Bibliography & Citations for Remark.
  * @author Alex Shaw
- * @todo Add support for more than just BibJSON
- * @todo Add support for more than just Chicago Style.
- * @todo Add support for more than just Book citations.
  */
 import path from 'path'
-import fs from 'fs'
+import bibjson from './bibjson'
+import citations from './citations'
+import apa from 'style-apa'
+import vancouver from 'style-vancouver'
+import mla from 'style-mla'
+import chicago from 'style-chicago'
+import enUS from 'locale-en-us'
 import util from 'util'
-import visit from 'unist-util-visit'
+import fs from 'fs'
 
 const readFile = util.promisify(fs.readFile)
 
-const book = (authors, year, title, publisher) => [
-  {
-    type: 'text',
-    value: `${authors}. ${year}. `
-  },
-  {
-    type: 'emphasis',
-    children: [{ type: 'text', value: title }]
-  },
-  {
-    type: 'text',
-    value: `. ${publisher}. `
-  }
-]
-
-function chicago (item, i) {
-  const authorsList = item.author.map(author => author.lastname)
-  const authors =
-    authorsList.length >= 4
-      ? `${authorsList[0]} et al.`
-      : authorsList.join(', ').replace(/, ([^,]+)$/, ', and $1')
-  const { id, publisher, title, year } = item
-  const key = `@${id}`
-  const citation = `${authors} ${year}`
-  const bibliography = {
-    type: 'listItem',
-    spread: false,
-    data: {
-      hProperties: { id: `ref-${id}`, className: 'reference' }
-    },
-    children: book(authors, year, title, publisher)
-  }
-  return {
-    id,
-    key,
-    citation,
-    bibliography
-  }
-}
-
-function bibjson (str) {
-  const data = Object.entries(JSON.parse(str))
-    .map(([id, item]) => {
-      const author = item.author.map(author => {
-        const name = author.name
-        const islastfirst = /^([^,]+),/.test(name)
-        const lastname = islastfirst
-          ? /^([^,]+)/.exec(name)[0]
-          : /[^ ]+$/.exec(name)[0]
-        return {
-          name,
-          lastname
-        }
-      })
-      return {
-        ...item,
-        id,
-        author
-      }
-    })
-    .map(chicago)
-
-  return data
-}
-
 function format (data, ext) {
-  switch (ext) {
-    case '.json':
-      return bibjson(data)
-    default:
-      return Promise.reject(new Error(`Unrecognized extension: ${ext}`))
+  const parsers = {
+    '.json': bibjson
   }
-}
+  
+  if (!parsers.hasOwnProperty(ext)) {
+    return Promise.reject(new Error(`Unrecognized format: ${ext}`))
+  }
+  
+  const parser = parsers[ext]
+  
+  const items = parser(data)
 
-function citations (tree, items) {
-  items.forEach(item => {
-    visit(tree, ['text'], (node, i, parent) => {
-      const contains = node.value.includes(item.key)
-      if (!contains) {
-        return
-      }
-      const values = node.value.split(item.key)
-      const children = [
-        {
-          type: 'text',
-          value: values[0]
-        },
-        {
-          type: 'link',
-          url: `#ref-${item.id}`,
-          data: {
-            hProperties: {
-              className: 'citation'
-            }
-          },
-          children: [{ type: 'text', value: item.citation }]
-        },
-        {
-          type: 'text',
-          value: values[1]
-        }
-      ]
-      parent.children.splice(i, 1, ...children)
-    })
-  })
-}
-
-function references (tree, items) {
-  tree.children = tree.children.concat({
-    type: 'element',
-    data: {
-      hName: 'div',
-      hProperties: {
-        className: 'references'
-      }
-    },
-    children: [
-      {
-        type: 'heading',
-        depth: 2,
-        children: [
-          {
-            type: 'text',
-            value: 'References'
-          }
-        ]
-      },
-      {
-        type: 'list',
-        ordered: true,
-        spread: false,
-        data: {
-          hProperties: { className: 'ref-list' }
-        },
-        children: items.map(item => item.bibliography)
-      }
-    ]
-  })
+  return items
 }
 
 export default function bibliography (options = {}) {
-  return (tree, file) => {
+  const styles = {
+    'apa': apa,
+    'chicago': chicago,
+    'mla': mla,
+    'vancouver': vancouver
+  }
+  
+  const locales = {
+    'en-us': enUS
+  }
+  
+  return async (tree, file) => {
     if (!file.data.hasOwnProperty('bibliography')) {
-      return
+      return Promise.resolve(tree)
     }
+    
     const dir = path.dirname(file.history[file.history.length - 1])
     const bibfile = path.resolve(dir, file.data.bibliography)
+    
+    const style = file.data.hasOwnProperty('style')
+      ? file.data.style.toLowerCase()
+      : 'chicago'
+    const locale = file.data.hasOwnProperty('locale')
+      ? file.data.locale.toLowerCase()
+      : 'en-us'
+    
+    if (!styles.hasOwnProperty(style)) {
+      return Promise.reject(new Error(`Unrecognized style: ${style}`))
+    } else if (!locales.hasOwnProperty(locale)) {
+      return Promise.reject(new Error(`Unrecognized locale: ${locale}`))
+    }
+    
+    const opts = {
+      style: styles[style],
+      locale: locales[locale]
+    }
+    
     return readFile(bibfile, 'utf8')
       .then(data => format(data, path.extname(bibfile)))
-      .then(items => {
-        citations(tree, items)
-        references(tree, items)
-      })
+      .then(items => citations(tree, items, opts))
   }
 }

@@ -1,5 +1,5 @@
-/* global expect */
-import deflist from './src'
+/* eslint-env jest */
+import deflist from './index'
 import html from 'rehype-stringify'
 import markdown from 'remark-parse'
 import remark2rehype from 'remark-rehype'
@@ -37,6 +37,6 @@ const tests = [
 
 describe.each(tests)('remark-deflist', (name, source) => {
   it(`should parse a ${name}`, () => {
-    expect(parse(source)).resolves.toMatchSnapshot()
+    return expect(parse(source)).resolves.toMatchSnapshot()
   })
 })

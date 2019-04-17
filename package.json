@@ -23,16 +23,18 @@
   ],
   "jest": {
     "testMatch": [
-      "**/packages/**/test.js"
+      "**/packages/**/test.js",
+      "**/packages/**/*.spec.js"
     ]
   },
   "devDependencies": {
     "@babel/cli": "^7.4.3",
     "@babel/core": "^7.4.0",
     "@babel/preset-env": "^7.4.2",
-    "babel-jest": "^24.5.0",
-    "jest": "^24.5.0",
-    "lerna": "^3.13.1",
+    "babel-jest": "^24.7.1",
+    "babel-plugin-add-module-exports": "^1.0.0",
+    "jest": "^24.7.1",
+    "lerna": "^3.13.2",
     "rehype-stringify": "^5.0.0",
     "remark-parse": "^6.0.3",
     "remark-rehype": "^4.0.0",
