@@ -25,6 +25,6 @@
     "build": "babel --root-mode upward --ignore \"**/*.spec.js\" --out-dir lib src"
   },
   "dependencies": {
-    "unist-util-visit": "^1.4.0"
+    "unist-util-visit": "^2.0.1"
   }
 }

@@ -25,10 +25,10 @@
     "build": "babel --root-mode upward --ignore \"**/*.spec.js\" --out-dir lib src"
   },
   "dependencies": {
-    "js-yaml": "^3.13.0",
-    "mdast-util-to-string": "^1.0.5",
+    "js-yaml": "^3.13.1",
+    "mdast-util-to-string": "^1.0.7",
     "toml": "^3.0.0",
-    "unist-util-select": "^2.0.0",
-    "unist-util-visit": "^1.4.0"
+    "unist-util-select": "^3.0.0",
+    "unist-util-visit": "^2.0.1"
   }
 }

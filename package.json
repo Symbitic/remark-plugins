@@ -16,6 +16,7 @@
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
     "test": "jest",
+    "prepublish": "npm run build",
     "publish": "lerna publish"
   },
   "browserslist": [
