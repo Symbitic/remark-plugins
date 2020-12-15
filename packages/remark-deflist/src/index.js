@@ -68,8 +68,6 @@ export default function deflist(options = {}) {
           }))
         start = i - 1
         count = 2
-
-        //console.log(node.children)
       }
 
       const child = {
@@ -91,5 +89,30 @@ export default function deflist(options = {}) {
 
       parent.children.splice(start, count, child)
     })
+
+    // Merge subsequent definition lists into a single list (#10)
+    visit(tree, ['descriptionlist'], (node, i, parent) => {
+      const start = i;
+      let count = 1;
+      let children = node.children;
+
+      for (let j=i+1; j<parent.children.length; j++) {
+        const next = parent.children[j];
+        if (next.type === 'descriptionlist') {
+          count++;
+          children = children.concat(next.children);
+        } else {
+          break;
+        }
+      }
+
+      if (count === 1) {
+        return;
+      }
+
+      node.children = children;
+
+      parent.children.splice(start, count, node);
+    });
   }
 }

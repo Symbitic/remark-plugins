@@ -5,7 +5,7 @@ import markdown from 'remark-parse'
 import remark2rehype from 'remark-rehype'
 import unified from 'unified'
 
-const strip = ([str]) => str.replace(/\n +/g, '\n')
+const strip = ([str]) => str.replace(/\n {6}/g, '\n').replace(/\n {4}$/, '')
 
 const parse = str =>
   unified()
@@ -26,19 +26,11 @@ const tests = [
     `
   ],
   [
-    'definition list with bold',
+    'definition list with child elements',
     strip`
-      Term **1**
+      Term *1*
 
       : Definition **1**
-    `
-  ],[
-    'definition list with multiple items',
-    strip`
-      Multiple definitions
-
-      : Definition **1**
-      : Definition 2
     `
   ],
   [
@@ -52,11 +44,36 @@ const tests = [
     `
   ],
   [
-    'test for (#7)',
+    'definition list with no space between the term and the descriptions (#7)',
     strip`
       Term **1**
       : Definition **bold** 1
       : Definition 2
+    `
+  ],
+  [
+    'definition list with multiple items (#9)',
+    strip`
+      Multiple descriptions
+
+      : Description **1**
+      : Description 2
+    `
+  ],
+  [
+    'document with several subsequent definition lists (#10)',
+    strip`
+      Definition List 1
+
+      : Description 1
+
+      Definition List 2
+
+      : Description 1
+
+      Definition List 3
+
+      : Description 1
     `
   ]
 ]
