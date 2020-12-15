@@ -28,7 +28,11 @@
   },
   "dependencies": {
     "citeproc": "^2.4.52",
+    "locale-de-de": "0.0.2",
+    "locale-en-gb": "0.0.2",
     "locale-en-us": "0.0.2",
+    "locale-es-es": "0.0.2",
+    "locale-fr-fr": "0.0.2",
     "style-apa": "0.0.2",
     "style-chicago": "0.0.2",
     "style-mla": "0.0.2",

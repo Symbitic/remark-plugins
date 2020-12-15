@@ -42,10 +42,5 @@
     "rimraf": "^3.0.2",
     "unified": "^8.4.2"
   },
-  "dependencies": {
-    "locale-de-de": "0.0.2",
-    "locale-en-gb": "0.0.2",
-    "locale-es-es": "0.0.2",
-    "locale-fr-fr": "0.0.2"
-  }
+  "dependencies": {}
 }
