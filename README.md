@@ -10,23 +10,23 @@ Feel free to contribute by submitting pull requests. Just make sure you follow t
 
 ## Packages
 
-* [**remark-bibliography**](https://npmjs.com/package/remark-bibliography)
+* [**remark-bibliography**](packages/remark-bibliography/README.md)
 
   Adds support for citations syntax and references using an external bibliography. Supports BibJSON and Chicago-style citations. Requires `remark-meta`.
 
-* [**remark-deflist**](https://npmjs.com/package/remark-deflist)
+* [**remark-deflist**](packages/remark-deflist/README.md)
 
   Adds support for pandoc-style definition lists syntax.
 
-* [**remark-meta**](https://npmjs.com/package/remark-meta)
+* [**remark-meta**](packages/remark-meta/README.md)
 
   Add YAML/TOML metadata to a VFile during processing. Requires [remark-frontmatter](https://npmjs.com/package/remark-frontmatter).
 
-* [**remark-redirect**](https://npmjs.com/package/remark-redirect)
+* [**remark-redirect**](packages/remark-redirect/README.md)
 
   Changes links that refer to `.md` so that they will refer to `.html` instead (useful for rendering multiple files). Also changes links to `README.md` into `index.html`
 
-* [**remark-supersub**](https://npmjs.com/package/remark-supersub)
+* [**remark-supersub**](packages/remark-supersub/README.md)
 
   Add support for Subscript and Superscript syntax.
 

@@ -76,8 +76,6 @@ Indent
 : (*verb*) To add whitespace to make ugly code beautiful.
 ```
 
-
-
 ## Installation
 
 ```bash
