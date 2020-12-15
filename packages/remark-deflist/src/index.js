@@ -28,29 +28,24 @@ export default function deflist (options = {}) {
       })
 
       const child = {
-        type: 'paragraph',
+        type: 'descriptionlist',
+        data: {
+          hName: 'dl'
+        },
         children: [
           {
-            type: 'descriptionlist',
+            type: 'descriptionterm',
             data: {
-              hName: 'dl'
+              hName: 'dt'
             },
-            children: [
-              {
-                type: 'descriptionterm',
-                data: {
-                  hName: 'dt'
-                },
-                children: parent.children[i - 1].children
-              },
-              {
-                type: 'descriptiondetails',
-                data: {
-                  hName: 'dd'
-                },
-                children: node.children
-              }
-            ]
+            children: parent.children[i - 1].children
+          },
+          {
+            type: 'descriptiondetails',
+            data: {
+              hName: 'dd'
+            },
+            children: node.children
           }
         ]
       }
