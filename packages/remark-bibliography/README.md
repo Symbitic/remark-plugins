@@ -2,21 +2,53 @@
 
 [Remark](https://remark.js.org/) plugin for adding citations and bibliographies to Markdown documents.
 
-Currently only BibJSON and Chicago-style book citations are supported. More will be added soon.
+Bibliographies are included by specifying the `bibliography` field in the YAML frontmatter metadata
+at the top of each document. Inline citations simply use @ followed by the name of the source.
+A complete bibliography will then be appended to the bottom of the output. See the example below for more details.
 
-This plugin requires `remark-meta`.
+This plugin requires [remark-meta](../remark-meta/README.md) to resolve the path to bibliography files.
+Files are resolved relative to the path of the markdown file.
 
-## Syntax
+BibJSON is the only format currently supported, but support for other formats like BibTeX,
+MODS, and RIS is planned. Pull requests are welcome.
 
-```markdown
----
-bibliography: bibliography.json
----
+## Example
 
-# Title
-
-Vulkan has better performance than OpenGL (@singh2016).
+Consider the following example:
 ```
+---
+bibliography: example.json
+---
+
+# Example Bibliography
+
+Example citation:
+
+Vulkan has better support for multithreading than OpenGL (@singh2016)
+
+See the full reference for this citation below:
+```
+
+When given a bibliography file like [example/example.json](example/example.json),
+the result will look something like [examples/example.html](examples/example.html)
+
+## Configuring
+
+remark-bibliography is configured using several metadata fields in each document.
+
+### `bibliography`
+
+Required. Specifies the path to the bibliography file, relative to the current file.
+
+### `locale`
+
+Which locale the citations use. Supported options:
+`de-de`, `en-gb`, `en-us`, `es-es`, and `fr-fr` (default: `en-us`).
+
+### `style`
+
+Which citation style to use for inline citations and the bibliography.
+Supported options: `apa`, `chicago`, `mla`, and `vancouver` (default: `chicago`).
 
 ## Installation
 
