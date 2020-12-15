@@ -27,12 +27,12 @@
     "build": "babel --root-mode upward --ignore \"**/*.spec.js\" --out-dir lib src"
   },
   "dependencies": {
-    "citeproc": "^2.2.31",
+    "citeproc": "^2.4.52",
     "locale-en-us": "0.0.2",
     "style-apa": "0.0.2",
     "style-chicago": "0.0.2",
     "style-mla": "0.0.2",
     "style-vancouver": "0.0.2",
-    "unist-util-visit": "^2.0.1"
+    "unist-util-visit": "^2.0.3"
   }
 }
