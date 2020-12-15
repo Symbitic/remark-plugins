@@ -26,7 +26,7 @@ const tests = [
     `
   ],
   [
-    'definition list with child elements',
+    'definition list with inline markup',
     strip`
       Term *1*
 
@@ -44,6 +44,24 @@ const tests = [
     `
   ],
   [
+    'definition list with continuation',
+    strip`
+      Term 1
+
+      : Definition
+        with continuation.
+    `
+  ],
+  [
+    'definition list with lazy continuation',
+    strip`
+      Term 1
+
+      : Definition
+      with lazy continuation.
+    `
+  ],
+  [
     'definition list with no space between the term and the descriptions (#7)',
     strip`
       Term **1**
@@ -52,7 +70,7 @@ const tests = [
     `
   ],
   [
-    'definition list with multiple items (#9)',
+    'definition list with multiple descriptions (#9)',
     strip`
       Multiple descriptions
 

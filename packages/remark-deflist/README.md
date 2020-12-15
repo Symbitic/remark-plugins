@@ -5,17 +5,18 @@
 Adds three new node types to [MDAST](https://github.com/syntax-tree/mdast): `descriptionlist`, `descriptionterm`, and `descriptiondetails`.
 When using [rehype](https://github.com/rehypejs/rehype), these will be stringified as `dl`, `dt`, and `dd` respectively.
 
-Multi-line definitions are not supported.
+Mostly compatible with the [pandoc]/[PHP Markdown Extra] syntax. The only difference is that multi-paragraph descriptions are not currently supported.
 
-## Syntax
+## Example
 
+### Syntax
 ```markdown
 Term 1
 
 : Definition 1
 ```
 
-## AST
+### AST
 
 The example above will yield:
 
@@ -40,6 +41,42 @@ The example above will yield:
   ]
 }
 ```
+
+## Syntax
+
+```
+Term with *inline markup*
+
+: Definition **1**
+```
+
+```
+Lazy Initialization
+: Achievement of compactness by not typing an extra line after the definition term.
+```
+
+```
+Continuation
+
+:   Splitting a single paragraph
+    across multiple lines.
+```
+
+```
+Lazy Continuation
+: Ugliness
+by not indenting text.
+```
+
+```
+This is an example of multiple definitions for a single term.
+
+Indent
+: (*noun*) A whitespace to align text in a beautiful way.
+: (*verb*) To add whitespace to make ugly code beautiful.
+```
+
+
 
 ## Installation
 
@@ -66,3 +103,6 @@ unified()
 ## License
 
 [MIT](LICENSE.md) &copy; Alex Shaw
+
+[pandoc]: https://pandoc.org/MANUAL.html#definition-lists
+[PHP Markdown Extra]: https://michelf.ca/projects/php-markdown/extra/#def-list
