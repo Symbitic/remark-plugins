@@ -18,6 +18,8 @@ Consider the following example:
 ```
 ---
 bibliography: example.json
+locale: en-us
+style: chicago
 ---
 
 # Example Bibliography
@@ -29,8 +31,8 @@ Vulkan has better support for multithreading than OpenGL (@singh2016)
 See the full reference for this citation below:
 ```
 
-When given a bibliography file like [example/example.json](example/example.json),
-the result will look something like [examples/example.html](examples/example.html)
+When given a bibliography file [example/example.json](example/example.json),
+the result will look something like this: [examples/example.html](examples/example.html)
 
 ## Configuring
 
