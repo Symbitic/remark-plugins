@@ -1,5 +1,7 @@
 # Remark Plugins
 
+[![Action Status](https://github.com/Symbitic/remark-plugins/workflows/main/badge.svg)](https://github.com/Symbitic/remark-plugins/actions)
+
 This is a collection of [**remark**](https://remark.js.org) plugins that were developed as part of my other project: [Markbook](https://github.com/Symbitic/markbook)
 
 Feel free to contribute by submitting pull requests. Just make sure you follow the [Code of Conduct](CODE_OF_CONDUCT.md) and your submissions include unit tests.
