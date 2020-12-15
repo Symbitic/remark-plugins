@@ -21,16 +21,42 @@ const tests = [
     'basic definition list',
     strip`
       Term 1
-      
+
       : Definition 1
     `
   ],
   [
-    'basic definition list + bold',
+    'definition list with bold',
     strip`
-      Term 1
+      Term **1**
 
       : Definition **1**
+    `
+  ],[
+    'definition list with multiple items',
+    strip`
+      Multiple definitions
+
+      : Definition **1**
+      : Definition 2
+    `
+  ],
+  [
+    'document with other elements',
+    strip`
+      Definition List
+
+      : Definition 1
+
+      This paragraph follows the definition list.
+    `
+  ],
+  [
+    'test for (#7)',
+    strip`
+      Term **1**
+      : Definition **bold** 1
+      : Definition 2
     `
   ]
 ]

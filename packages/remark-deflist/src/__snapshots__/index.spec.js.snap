@@ -1,5 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`remark-deflist should parse a basic definition list + bold 1`] = `"<dl><dt>Term 1</dt><dd>Definition <strong>1</strong></dd></dl>"`;
-
 exports[`remark-deflist should parse a basic definition list 1`] = `"<dl><dt>Term 1</dt><dd>Definition 1</dd></dl>"`;
+
+exports[`remark-deflist should parse a definition list with bold 1`] = `"<dl><dt>Term <strong>1</strong></dt><dd>Definition <strong>1</strong></dd></dl>"`;
+
+exports[`remark-deflist should parse a definition list with multiple items 1`] = `"<dl><dt>Multiple definitions</dt><dd>Definition <strong>1</strong></dd><dd>Definition 2</dd></dl>"`;
+
+exports[`remark-deflist should parse a document with other elements 1`] = `
+"<dl><dt>Definition List</dt><dd>Definition 1</dd></dl>
+<p>This paragraph follows the definition list.</p>"
+`;
+
+exports[`remark-deflist should parse a test for (#7) 1`] = `"<dl><dt>Term <strong>1</strong></dt><dd>Definition <strong>bold</strong> 1</dd><dd>Definition 2</dd></dl>"`;

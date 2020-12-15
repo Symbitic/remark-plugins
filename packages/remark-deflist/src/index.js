@@ -4,15 +4,26 @@
 
 import visit from 'unist-util-visit'
 import toString from 'mdast-util-to-string'
+import fromMarkdown from 'mdast-util-from-markdown'
+import toMarkdown from 'mdast-util-to-markdown'
 
-const isdeflist = (node, i, parent) =>
+// Test if deflist is contained in a single paragraph.
+const isSingleDeflist = (node) =>
+  // i > 0 &&
+  /^[^:].+\n:\s/.test(toString(node)) &&
+  node.type === 'paragraph'
+
+// Test if deflist is split between two paragraphs.
+const isSplitDeflist = (node, i, parent) =>
   i > 0 &&
   /^:\s/.test(toString(node)) &&
   !/^:\s/.test(toString(parent.children[i - 1])) &&
   node.type === 'paragraph' &&
   parent.children[i - 1].type === 'paragraph'
 
-export default function deflist (options = {}) {
+const isdeflist = (node, i, parent) => isSingleDeflist(node) || isSplitDeflist(node, i, parent)
+
+export default function deflist(options = {}) {
   return (tree, file) => {
     visit(tree, ['paragraph'], (node, i, parent) => {
       const isdef = isdeflist(node, i, parent)
@@ -20,12 +31,46 @@ export default function deflist (options = {}) {
         return
       }
 
-      // Remove the ": " that we use to identify a deflist to begin with.
-      visit(node, n => {
-        if (typeof n.value !== 'undefined') {
-          n.value = n.value.replace(/^:\s+/, '')
-        }
-      })
+      let dd = undefined;
+      let dt = undefined;
+      let count = 0;
+      let start = 0;
+
+      if (isSingleDeflist(node)) {
+        const [ title, ...children ] = toMarkdown(node).split(/\n:\s+/)
+
+        dt = fromMarkdown(title).children.flatMap(({ children }) => children)
+        dd = children
+          .map(fromMarkdown)
+          .flatMap(({ children }) => children)
+          .map(({ children }) => ({
+            type: 'descriptiondetails',
+            data: {
+              hName: 'dd'
+            },
+            children
+          }))
+        start = i
+        count = 1
+      } else {
+        dt = parent.children[i - 1].children
+        dd = toMarkdown(node)
+          .replace(/^:\s+/, '')
+          .split(/\n:\s+/)
+          .map(fromMarkdown)
+          .flatMap(({ children }) => children)
+          .map(({ children }) => ({
+            type: 'descriptiondetails',
+            data: {
+              hName: 'dd'
+            },
+            children
+          }))
+        start = i - 1
+        count = 2
+
+        //console.log(node.children)
+      }
 
       const child = {
         type: 'descriptionlist',
@@ -38,19 +83,13 @@ export default function deflist (options = {}) {
             data: {
               hName: 'dt'
             },
-            children: parent.children[i - 1].children
+            children: dt
           },
-          {
-            type: 'descriptiondetails',
-            data: {
-              hName: 'dd'
-            },
-            children: node.children
-          }
+          ...dd
         ]
       }
 
-      parent.children.splice(i - 1, 2, child)
+      parent.children.splice(start, count, child)
     })
   }
 }

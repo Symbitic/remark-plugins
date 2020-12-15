@@ -25,6 +25,8 @@
     "build": "babel --root-mode upward --ignore \"**/*.spec.js\" --out-dir lib src"
   },
   "dependencies": {
+    "mdast-util-from-markdown": "^0.8.4",
+    "mdast-util-to-markdown": "^0.6.1",
     "mdast-util-to-string": "^2.0.0",
     "unist-util-visit": "^2.0.3"
   }
