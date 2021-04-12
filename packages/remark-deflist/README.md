@@ -98,29 +98,28 @@ unified()
   .use(html)
 ```
 
-If you need to support (MDX)[https://mdxjs.com/] within the definition, you can
-pass in the following options:
+If you are using (MDX)[https://mdxjs.com/] and want to support mdx syntax within the definition, you can pass in the following options:
 
 ```javascript
-import unified from 'unified'
-import markdown from 'remark-parse'
-import html from 'rehype-stringify'
-import remark2rehype from 'remark-rehype'
-import deflist from 'remark-deflist'
+import mdx from "@mdx-js/mdx";
+import deflist from "remark-deflist";
 import mdxUtil from "mdast-util-mdx";
 import syntax from "micromark-extension-mdxjs";
 
-unified()
-  .use(markdown)
-  .use(deflist, {
-    fromMarkdownOptions: {
-      extensions: [syntax()],
-      mdastExtensions: [mdxUtil.fromMarkdown],
-    },
-    toMarkdownOptions: { extensions: [mdxUtil.toMarkdown] },
-  })
-  .use(remark2rehype)
-  .use(html)
+mdx(fileName, {
+  remarkPlugins: [
+    [
+      deflist,
+      {
+        fromMarkdownOptions: {
+          extensions: [syntax()],
+          mdastExtensions: [mdxUtil.fromMarkdown],
+        },
+        toMarkdownOptions: { extensions: [mdxUtil.toMarkdown] },
+      },
+    ],
+  ],
+});
 ```
 
 Checkout the options you can pass for toMarkdownOptions in the
