@@ -98,6 +98,35 @@ unified()
   .use(html)
 ```
 
+If you are using (MDX)[https://mdxjs.com/] and want to support mdx syntax within the definition, you can pass in the following options:
+
+```javascript
+import mdx from "@mdx-js/mdx";
+import deflist from "remark-deflist";
+import mdxUtil from "mdast-util-mdx";
+import syntax from "micromark-extension-mdxjs";
+
+mdx(fileName, {
+  remarkPlugins: [
+    [
+      deflist,
+      {
+        fromMarkdownOptions: {
+          extensions: [syntax()],
+          mdastExtensions: [mdxUtil.fromMarkdown],
+        },
+        toMarkdownOptions: { extensions: [mdxUtil.toMarkdown] },
+      },
+    ],
+  ],
+});
+```
+
+Checkout the options you can pass for toMarkdownOptions in the
+[mdast-util-to-markdown api docs](https://github.com/syntax-tree/mdast-util-to-markdown#tomarkdowntree-options)
+and the options for fromMarkdownOptions in the [mdast-util-from-markdown api docs](https://github.com/syntax-tree/mdast-util-from-markdown#api).
+
+
 ## License
 
 [MIT](LICENSE.md) &copy; Alex Shaw
