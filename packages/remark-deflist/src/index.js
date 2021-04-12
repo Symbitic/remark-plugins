@@ -2,33 +2,37 @@
  * Remark DefinitionList plugin.
  */
 
-import visit from 'unist-util-visit'
-import toString from 'mdast-util-to-string'
-import fromMarkdown from 'mdast-util-from-markdown'
-import toMarkdown from 'mdast-util-to-markdown'
+import visit from "unist-util-visit";
+import toString from "mdast-util-to-string";
+import fromMarkdown from "mdast-util-from-markdown";
+import toMarkdown from "mdast-util-to-markdown";
+import mdxUtil from "mdast-util-mdx";
+import syntax from "micromark-extension-mdxjs";
 
 // Test if deflist is contained in a single paragraph.
 const isSingleDeflist = (node) =>
   // i > 0 &&
-  /^[^:].+\n:\s/.test(toString(node)) &&
-  node.type === 'paragraph'
+  /^[^:].+\n:\s/.test(toString(node)) && node.type === "paragraph";
 
 // Test if deflist is split between two paragraphs.
 const isSplitDeflist = (node, i, parent) =>
   i > 0 &&
   /^:\s/.test(toString(node)) &&
   !/^:\s/.test(toString(parent.children[i - 1])) &&
-  node.type === 'paragraph' &&
-  parent.children[i - 1].type === 'paragraph'
+  node.type === "paragraph" &&
+  parent.children[i - 1].type === "paragraph";
 
-const isdeflist = (node, i, parent) => isSingleDeflist(node) || isSplitDeflist(node, i, parent)
+const isdeflist = (node, i, parent) =>
+  isSingleDeflist(node) || isSplitDeflist(node, i, parent);
 
-export default function deflist(options = {}) {
+export default function deflist(
+  options = { toMarkdownOptions: {}, fromMarkdownOptions: {} }
+) {
   return (tree, file) => {
-    visit(tree, ['paragraph'], (node, i, parent) => {
-      const isdef = isdeflist(node, i, parent)
+    visit(tree, ["paragraph"], (node, i, parent) => {
+      const isdef = isdeflist(node, i, parent);
       if (!isdef) {
-        return
+        return;
       }
 
       let dd = undefined;
@@ -37,68 +41,83 @@ export default function deflist(options = {}) {
       let start = 0;
 
       if (isSingleDeflist(node)) {
-        const [ title, ...children ] = toMarkdown(node).split(/\n:\s+/)
+        const [title, ...children] = toMarkdown(node, {
+          extensions: [mdxUtil.toMarkdown],
+        }).split(/\n:\s+/);
 
-        dt = fromMarkdown(title).children.flatMap(({ children }) => children)
+        dt = fromMarkdown(title, {
+          extensions: [syntax()],
+          mdastExtensions: [mdxUtil.fromMarkdown],
+        }).children.flatMap(({ children }) => children);
         dd = children
-          .map(fromMarkdown)
+          .map((node) =>
+            fromMarkdown(node, {
+              extensions: [syntax()],
+              mdastExtensions: [mdxUtil.fromMarkdown],
+            })
+          )
           .flatMap(({ children }) => children)
           .map(({ children }) => ({
-            type: 'descriptiondetails',
+            type: "descriptiondetails",
             data: {
-              hName: 'dd'
+              hName: "dd",
             },
-            children
-          }))
-        start = i
-        count = 1
+            children,
+          }));
+        start = i;
+        count = 1;
       } else {
-        dt = parent.children[i - 1].children
-        dd = toMarkdown(node)
-          .replace(/^:\s+/, '')
+        dt = parent.children[i - 1].children;
+        dd = toMarkdown(node, { extensions: [mdxUtil.toMarkdown] })
+          .replace(/^:\s+/, "")
           .split(/\n:\s+/)
-          .map(fromMarkdown)
+          .map((node) =>
+            fromMarkdown(node, {
+              extensions: [syntax()],
+              mdastExtensions: [mdxUtil.fromMarkdown],
+            })
+          )
           .flatMap(({ children }) => children)
           .map(({ children }) => ({
-            type: 'descriptiondetails',
+            type: "descriptiondetails",
             data: {
-              hName: 'dd'
+              hName: "dd",
             },
-            children
-          }))
-        start = i - 1
-        count = 2
+            children,
+          }));
+        start = i - 1;
+        count = 2;
       }
 
       const child = {
-        type: 'descriptionlist',
+        type: "descriptionlist",
         data: {
-          hName: 'dl'
+          hName: "dl",
         },
         children: [
           {
-            type: 'descriptionterm',
+            type: "descriptionterm",
             data: {
-              hName: 'dt'
+              hName: "dt",
             },
-            children: dt
+            children: dt,
           },
-          ...dd
-        ]
-      }
+          ...dd,
+        ],
+      };
 
-      parent.children.splice(start, count, child)
-    })
+      parent.children.splice(start, count, child);
+    });
 
     // Merge subsequent definition lists into a single list (#10)
-    visit(tree, ['descriptionlist'], (node, i, parent) => {
+    visit(tree, ["descriptionlist"], (node, i, parent) => {
       const start = i;
       let count = 1;
       let children = node.children;
 
-      for (let j=i+1; j<parent.children.length; j++) {
+      for (let j = i + 1; j < parent.children.length; j++) {
         const next = parent.children[j];
-        if (next.type === 'descriptionlist') {
+        if (next.type === "descriptionlist") {
           count++;
           children = children.concat(next.children);
         } else {
@@ -114,5 +133,5 @@ export default function deflist(options = {}) {
 
       parent.children.splice(start, count, node);
     });
-  }
+  };
 }
