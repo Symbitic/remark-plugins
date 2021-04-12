@@ -9,11 +9,7 @@ import mdxUtil from "mdast-util-mdx";
 import syntax from "micromark-extension-mdxjs";
 import remarkSuperSub from "../../remark-supersub/src";
 
-const strip = ([str]) => {
-  const stripped = str.replace(/\n {6}/g, "\n").replace(/\n {4}$/, "");
-  console.log(stripped);
-  return stripped;
-};
+const strip = ([str]) => str.replace(/\n {6}/g, "\n").replace(/\n {4}$/, "");
 
 const parse = (str) =>
   unified()
@@ -22,7 +18,7 @@ const parse = (str) =>
     .use(remark2rehype)
     .use(html)
     .process(str)
-    .then((data) => data.toString());
+    .then(data => data.toString());
 
 const mdxParse = (str) =>
   mdx(str, {
