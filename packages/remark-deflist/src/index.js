@@ -41,21 +41,16 @@ export default function deflist(
       let start = 0;
 
       if (isSingleDeflist(node)) {
-        const [title, ...children] = toMarkdown(node, {
-          extensions: [mdxUtil.toMarkdown],
-        }).split(/\n:\s+/);
+        const [title, ...children] = toMarkdown(
+          node,
+          options.toMarkdownOptions
+        ).split(/\n:\s+/);
 
-        dt = fromMarkdown(title, {
-          extensions: [syntax()],
-          mdastExtensions: [mdxUtil.fromMarkdown],
-        }).children.flatMap(({ children }) => children);
+        dt = fromMarkdown(title, options.fromMarkdownOptions).children.flatMap(
+          ({ children }) => children
+        );
         dd = children
-          .map((node) =>
-            fromMarkdown(node, {
-              extensions: [syntax()],
-              mdastExtensions: [mdxUtil.fromMarkdown],
-            })
-          )
+          .map((node) => fromMarkdown(node, options.fromMarkdownOptions))
           .flatMap(({ children }) => children)
           .map(({ children }) => ({
             type: "descriptiondetails",
@@ -68,15 +63,10 @@ export default function deflist(
         count = 1;
       } else {
         dt = parent.children[i - 1].children;
-        dd = toMarkdown(node, { extensions: [mdxUtil.toMarkdown] })
+        dd = toMarkdown(node, options.toMarkdownOptions)
           .replace(/^:\s+/, "")
           .split(/\n:\s+/)
-          .map((node) =>
-            fromMarkdown(node, {
-              extensions: [syntax()],
-              mdastExtensions: [mdxUtil.fromMarkdown],
-            })
-          )
+          .map((node) => fromMarkdown(node, options.fromMarkdownOptions))
           .flatMap(({ children }) => children)
           .map(({ children }) => ({
             type: "descriptiondetails",
