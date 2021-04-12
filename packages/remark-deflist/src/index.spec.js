@@ -21,10 +21,7 @@ const parse = (str) =>
     .use(deflist)
     .use(remark2rehype)
     .use(html)
-    .process(str, function (err, file) {
-      if (err) throw err;
-      console.log(String(file));
-    })
+    .process(str)
     .then((data) => data.toString());
 
 const mdxParse = (str) =>

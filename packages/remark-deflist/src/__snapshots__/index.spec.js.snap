@@ -38,13 +38,13 @@ export default MDXContent;
 "
 `;
 
-exports[`remark-deflist with an mdx parser should parse a definition list with another plugin syntax 1`] = `
+exports[`remark-deflist with an mdx parser should parse a definition list with another remark plugin's syntax 1`] = `
 "/* @jsxRuntime classic */
 /* @jsx mdx */
 /* @jsxFrag mdx.Fragment */
 const MDXLayout = \\"wrapper\\";
 function MDXContent({components, ...props}) {
-  return <MDXLayout components={components} {...props}><dl><dt parentName=\\"dl\\">{\\"Definition List 1\\"}</dt><dd parentName=\\"dl\\">{\\"Definition^1, H\\"}<sub parentName=\\"dd\\">{\\"2\\"}</sub>{\\"0\\"}</dd></dl></MDXLayout>;
+  return <MDXLayout components={components} {...props}><dl><dt parentName=\\"dl\\">{\\"Definition List 1\\"}</dt><dd parentName=\\"dl\\">{\\"Definition\\"}<sup parentName=\\"dd\\">{\\"1\\"}</sup>{\\", H\\"}<sub parentName=\\"dd\\">{\\"2\\"}</sub>{\\"0\\"}</dd></dl></MDXLayout>;
 }
 MDXContent.isMDXComponent = true;
 export default MDXContent;
@@ -58,19 +58,6 @@ exports[`remark-deflist with an mdx parser should parse a definition list with c
 const MDXLayout = \\"wrapper\\";
 function MDXContent({components, ...props}) {
   return <MDXLayout components={components} {...props}><dl><dt parentName=\\"dl\\">{\\"Term 1\\"}</dt><dd parentName=\\"dl\\">{\\"Definition\\\\nwith continuation.\\"}</dd></dl></MDXLayout>;
-}
-MDXContent.isMDXComponent = true;
-export default MDXContent;
-"
-`;
-
-exports[`remark-deflist with an mdx parser should parse a definition list with inline html 1`] = `
-"/* @jsxRuntime classic */
-/* @jsx mdx */
-/* @jsxFrag mdx.Fragment */
-const MDXLayout = \\"wrapper\\";
-function MDXContent({components, ...props}) {
-  return <MDXLayout components={components} {...props}><dl><dt parentName=\\"dl\\">{\\"Cat\\"}</dt><dd parentName=\\"dl\\">{\\"Definition \\"}<b parentName=\\"dd\\">{2 + 5}</b></dd></dl></MDXLayout>;
 }
 MDXContent.isMDXComponent = true;
 export default MDXContent;
