@@ -1,26 +1,31 @@
 /**
- * @fileoverview Bibliography & Citations for Remark.
- * @author Alex Shaw
+ * Bibliography & Citations for Remark.
  */
 import path from 'path'
-import bibjson from './bibjson'
-import citations from './citations'
+import util from 'util'
+import fs from 'fs'
+
 import apa from 'style-apa'
 import vancouver from 'style-vancouver'
 import mla from 'style-mla'
 import chicago from 'style-chicago'
+
 import deDE from 'locale-de-de'
 import enGB from 'locale-en-gb'
 import enUS from 'locale-en-us'
 import esES from 'locale-es-es'
 import frFR from 'locale-fr-fr'
-import util from 'util'
-import fs from 'fs'
+
+import bibjson from './bibjson'
+import citations from './citations'
+
+import type { Transformer } from 'unified'
+import type { Data, Node } from 'unist'
 
 const readFile = util.promisify(fs.readFile)
 
-function format (data, ext) {
-  const parsers = {
+function format(data: string, ext: string) {
+  const parsers: Record<string, any> = {
     '.json': bibjson
   }
 
@@ -35,15 +40,17 @@ function format (data, ext) {
   return items
 }
 
-export default function bibliography (options = {}) {
-  const styles = {
+export interface Bibliography {}
+
+export default function bibliography(_options: Bibliography = {}): Transformer {
+  const styles: Record<string, any> = {
     'apa': apa,
     'chicago': chicago,
     'mla': mla,
     'vancouver': vancouver
   }
 
-  const locales = {
+  const locales: Record<string, any> = {
     'de-de': deDE,
     'en-gb': enGB,
     'en-us': enUS,
@@ -51,19 +58,19 @@ export default function bibliography (options = {}) {
     'fr-fr': frFR
   }
 
-  return async (tree, file) => {
+  return async (tree, file): Promise<Node<Data>> => {
     if (!file.data.hasOwnProperty('bibliography')) {
       return Promise.resolve(tree)
     }
 
     const dir = path.dirname(file.history[file.history.length - 1])
-    const bibfile = path.resolve(dir, file.data.bibliography)
+    const bibfile = path.resolve(dir, file.data.bibliography as string)
 
     const style = file.data.hasOwnProperty('style')
-      ? file.data.style.toLowerCase()
+      ? (file.data.style as string).toLowerCase()
       : 'chicago'
     const locale = file.data.hasOwnProperty('locale')
-      ? file.data.locale.toLowerCase()
+      ? (file.data.locale as string).toLowerCase()
       : 'en-us'
 
     if (!styles.hasOwnProperty(style)) {
@@ -77,8 +84,8 @@ export default function bibliography (options = {}) {
       locale: locales[locale]
     }
 
-    return readFile(bibfile, 'utf8')
-      .then(data => format(data, path.extname(bibfile)))
-      .then(items => citations(tree, items, opts))
+    const data = await readFile(bibfile, 'utf8')
+    const items = format(data, path.extname(bibfile))
+    return citations(tree, items, opts)
   }
 }

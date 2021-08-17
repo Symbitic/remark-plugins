@@ -9,20 +9,27 @@ const REVERSE_DAY = /^(-?\d+)[ .\-/](\d{1,2}|[a-z]{3,10})[ .\-/](\d{1,2})/i
 const MONTH = /^([a-z]{3,10}|-?\d+)[^\w-]+([a-z]{3,10}|-?\d+)$/i
 const YEAR = /^-?\d+$/
 
-const getMonth = month => ({
-  jan: 1,
-  feb: 2,
-  mar: 3,
-  apr: 4,
-  may: 5,
-  jun: 6,
-  jul: 7,
-  aug: 8,
-  sep: 9,
-  oct: 10,
-  nov: 11,
-  dec: 12
-}[ month.toLowerCase().slice(0, 3) ])
+function getMonth(month: string) {
+  const MONTHS_TABLE: Record<string, number> = {
+    jan: 1,
+    feb: 2,
+    mar: 3,
+    apr: 4,
+    may: 5,
+    jun: 6,
+    jul: 7,
+    aug: 8,
+    sep: 9,
+    oct: 10,
+    nov: 11,
+    dec: 12
+  }
+  const abbr: string = month.toLowerCase().slice(0, 3)
+  if (abbr in MONTHS_TABLE) {
+    return MONTHS_TABLE[abbr];
+  }
+  return 0
+}
 
 /*
 const isEpoc = date => {
@@ -42,63 +49,63 @@ const isAmericanDay = date => {
 }
 */
 
-function parseEpoch (date) {
+function parseEpoch(date: string | number) {
   let epoch = new Date(date)
 
   if (typeof date === 'number' && !isNaN(epoch.valueOf())) {
-    return [ epoch.getFullYear(), epoch.getMonth() + 1, epoch.getDate() ]
+    return [epoch.getFullYear(), epoch.getMonth() + 1, epoch.getDate()]
   } else {
     return null
   }
 }
 
-function parseIso8601 (date) {
+function parseIso8601(date: string) {
   if (typeof date !== 'string' || !ISO8601.test(date)) {
     return null
   }
 
-  let [ , year, month, day ] = date.match(ISO8601)
+  let [, year, month, day] = date.match(ISO8601) as RegExpMatchArray
 
   if (!+month) {
-    return [ year ]
+    return [year]
   } else if (!+day) {
-    return [ year, month ]
+    return [year, month]
   } else {
-    return [ year, month, day ]
+    return [year, month, day]
   }
 }
 
-function parseRfc2822 (date) {
+function parseRfc2822(date: string) {
   if (typeof date !== 'string' || !RFC2822.test(date)) {
     return null
   }
 
-  let [ , day, month, year ] = date.match(RFC2822)
+  let [, day, monthStr, year] = date.match(RFC2822) as RegExpMatchArray
 
-  month = getMonth(month)
+  const month = getMonth(monthStr)
   if (!month) {
     return null
   }
 
-  return [ year, month, day ]
+  return [year, month, day]
 }
 
-function parseAmericanDay (date) {
+function parseAmericanDay(date: string) {
   if (typeof date !== 'string' || !AMERICAN_DAY.test(date)) {
     return null
   }
 
-  let [ , month, day, year ] = date.match(AMERICAN_DAY)
+  let [, month, day, year]: any = date.match(AMERICAN_DAY)!
 
   let check = new Date(year, month, day)
   if (check.getMonth() === parseInt(month)) {
-    return [ year, month, day ]
+    return [year, month, day]
   } else {
     return null
   }
 }
 
-function parseDay (date) {
+function parseDay(date: string) {
   let year
   let month
   let day
@@ -106,9 +113,9 @@ function parseDay (date) {
   if (typeof date !== 'string') {
     return null
   } else if (REGULAR_DAY.test(date)) {
-    [ , day, month, year ] = date.match(REGULAR_DAY)
+    [, day, month, year] = date.match(REGULAR_DAY)
   } else if (REVERSE_DAY.test(date)) {
-    [ , year, month, day ] = date.match(REVERSE_DAY)
+    [, year, month, day] = date.match(REVERSE_DAY)
   } else {
     return null
   }
@@ -119,19 +126,19 @@ function parseDay (date) {
     return null
   }
 
-  return [ year, month, day ]
+  return [year, month, day]
 }
 
-function parseMonth (date) {
+function parseMonth(date: string) {
   if (typeof date === 'string' && MONTH.test(date)) {
-    let values = date.match(MONTH).slice(1, 3)
+    let values = date.match(MONTH)!.slice(1, 3)
 
     let month
     if (getMonth(values[1])) {
-      month = getMonth(values.pop())
+      month = getMonth(values.pop() as string)
     } else if (getMonth(values[0])) {
-      month = getMonth(values.shift())
-    } else if (values.some(isNaN) || values.every(value => +value < 0)) {
+      month = getMonth(values.shift() as string)
+    } else if (values.some((val: any) => isNaN(val)) || values.every(value => +value < 0)) {
       return null
     } else if (+values[0] < 0) {
       month = values.pop()
@@ -143,13 +150,13 @@ function parseMonth (date) {
 
     let year = values.pop()
 
-    return [ year, month ]
+    return [year, month]
   } else {
     return null
   }
 }
 
-function parseYear (date) {
+function parseYear(date: string) {
   if (typeof date === 'string' && YEAR.test(date)) {
     return [date]
   } else {
@@ -157,7 +164,7 @@ function parseYear (date) {
   }
 }
 
-export default function parseDate (value) {
+export default function parseDate(value: string) {
   const date = parseEpoch(value)
     || parseIso8601(value)
     || parseRfc2822(value)
@@ -165,10 +172,10 @@ export default function parseDate (value) {
     || parseDay(value)
     || parseMonth(value)
     || parseYear(value)
-  
+
   return date ? {
     // 'date-parts': [ date.map(string => parseInt(string)) ]
-    'date-parts': [ date.map(str => str.length > 2 ? str : parseInt(str)) ]
+    'date-parts': [date.map(str => str.length > 2 ? str : parseInt(str))]
   } : {
     raw: value
   }

@@ -4,39 +4,33 @@
   "license": "MIT",
   "description": "Remark plugin for adding bibliographies to markdown.",
   "author": "Alex Shaw <alex.shaw.as@gmail.com>",
-  "main": "lib/index.js",
-  "module": "src/index.js",
+  "sideEffects": false,
+  "type": "module",
+  "exports": "./lib/index.js",
+  "types": "lib/index.d.ts",
   "files": [
-    "lib",
-    "src"
+    "lib/"
   ],
   "keywords": [
     "remark",
-    "remark-plugin",
-    "bibliography",
-    "citation"
+    "remark-plugin"
   ],
-  "repository": {
-    "url": "https://github.com/Symbitic/remark-plugins/tree/master/packages/remark-bibliography",
-    "type": "git"
-  },
-  "engines": {
-    "node": ">=8"
-  },
+  "repository": "https://github.com/Symbitic/remark-plugins/tree/master/packages/remark-meta",
+  "bugs": "https://github.com/Symbitic/remark-plugins/issues",
   "scripts": {
-    "build": "babel --root-mode upward --ignore \"**/*.spec.js\" --out-dir lib src"
+    "build": "tsc"
   },
   "dependencies": {
-    "citeproc": "^2.4.52",
-    "locale-de-de": "0.0.2",
-    "locale-en-gb": "0.0.2",
-    "locale-en-us": "0.0.2",
-    "locale-es-es": "0.0.2",
-    "locale-fr-fr": "0.0.2",
-    "style-apa": "0.0.2",
-    "style-chicago": "0.0.2",
-    "style-mla": "0.0.2",
-    "style-vancouver": "0.0.2",
-    "unist-util-visit": "^2.0.3"
+    "citeproc": "^2.4.59",
+    "locale-de-de": "^0.0.2",
+    "locale-en-gb": "^0.0.2",
+    "locale-en-us": "^0.0.2",
+    "locale-es-es": "^0.0.2",
+    "locale-fr-fr": "^0.0.2",
+    "style-apa": "^0.0.2",
+    "style-chicago": "^0.0.2",
+    "style-mla": "^0.0.2",
+    "style-vancouver": "^0.0.2",
+    "unist-util-visit": "^4.0.0"
   }
 }

@@ -1,37 +1,44 @@
 import chicago from 'style-chicago'
 import CSL from 'citeproc'
 import enUS from 'locale-en-us'
-import visit from 'unist-util-visit'
+import { visit } from 'unist-util-visit'
+import type { Data, Literal, Node, Parent } from 'unist'
 
-export default function citations (tree, items, opts = {}) {
+export interface Options {
+  style: Record<string, any>;
+  locale: Record<string, any>;
+}
+
+export default function citations(root: Node<Data>, items: any, opts: Partial<Options> = {}) {
+  const tree = root as Parent<Node<Data>, Data>;
   const style = opts.style || chicago
   const locale = opts.locale || enUS
-  
+
   const sys = {
     retrieveLocale: () => locale,
-    retrieveItem: id => items[id]
+    retrieveItem: (id: string) => items[id]
   }
-  
+
   // Create Citeproc and add items
   const citeproc = new CSL.Engine(sys, style)
   citeproc.updateItems(Object.keys(items))
-  
+
   // Create citations
   const citations = Object.entries(items)
-    .map(([ key, val ]) => ([
+    .map(([key, val]) => ([
       key,
-      citeproc.makeCitationCluster([ val ])
+      citeproc.makeCitationCluster([val])
         // .replace(/^\(.+)/)$/, '$1')
     ]))
     .reduce((acc, val) => Object.assign(acc, {
       [val[0]]: val[1]
     }), {})
-  
+
   // Create bibliography
   const bibliography = citeproc.makeBibliography()
-  const ids = bibliography[0].entry_ids.map(ids => ids.join(''))
+  const ids = bibliography[0].entry_ids.map((ids: string[]) => ids.join(''))
   const bib = bibliography[1]
-    .map(str => str
+    .map((str: string) => str
       .trim()
       .replace(/<div[^>]+>/g, '')
       .replace(/<\/div>/g, '')
@@ -47,14 +54,16 @@ export default function citations (tree, items, opts = {}) {
     )
 
   // Add citations to MDAST
-  Object.entries(citations).forEach(([ id, cite ]) => {
+  Object.entries(citations).forEach(([id, cite]) => {
     const key = `(@${id})`
-    visit(tree, [ 'text' ], (node, i, parent) => {
-      const contains = node.value.includes(key)
+    visit(tree, ['text'], (node, i, parent) => {
+      const { value } = node as Literal<string>
+
+      const contains = value.includes(key)
       if (!contains) {
         return
       }
-      const values = node.value.split(key)
+      const values = value.split(key)
       const children = [
         {
           type: 'text',
@@ -75,10 +84,10 @@ export default function citations (tree, items, opts = {}) {
           value: values[1]
         }
       ]
-      parent.children.splice(i, 1, ...children)
+      parent!.children.splice(i!, 1, ...children)
     })
   })
-  
+
   // Append bibliography to MDAST
   tree.children = tree.children.concat({
     type: 'element',
@@ -116,7 +125,7 @@ export default function citations (tree, items, opts = {}) {
         }))
       }
     ]
-  })
-  
-  return tree
+  } as any)
+
+  return tree as Node<Data>
 }

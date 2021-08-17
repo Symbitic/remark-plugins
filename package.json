@@ -3,13 +3,6 @@
   "private": true,
   "license": "MIT",
   "repository": "github:Symbitic/remark-plugins",
-  "keywords": [
-    "remark",
-    "remark-plugin"
-  ],
-  "engines": {
-    "node": ">=8"
-  },
   "scripts": {
     "coverage": "jest --coverage",
     "postinstall": "npm run bootstrap",
@@ -19,28 +12,29 @@
     "prepublishOnly": "npm run build",
     "publish": "lerna publish"
   },
-  "browserslist": [
-    "node 8"
-  ],
   "jest": {
     "testMatch": [
-      "**/packages/**/test.js",
-      "**/packages/**/*.spec.js"
-    ]
+      "**/packages/**/*.spec.ts"
+    ],
+    "transform": {
+      "^.+\\.(t|j)sx?$": "ts-jest"
+    }
   },
   "devDependencies": {
-    "@babel/cli": "^7.12.10",
-    "@babel/core": "^7.12.10",
-    "@babel/preset-env": "^7.12.10",
-    "babel-jest": "^26.6.3",
-    "babel-plugin-add-module-exports": "^1.0.4",
-    "jest": "^26.6.3",
-    "lerna": "^3.22.1",
-    "rehype-stringify": "^6.0.1",
-    "remark-parse": "^7.0.2",
-    "remark-rehype": "^5.0.0",
+    "@types/jest": "^26.0.24",
+    "@types/js-yaml": "^4.0.2",
+    "@types/mdast": "^3.0.7",
+    "@types/node": "^16.6.1",
+    "@types/unist": "^2.0.6",
+    "jest": "^27.0.6",
+    "lerna": "^4.0.0",
+    "rehype-stringify": "^9.0.1",
+    "remark": "^14.0.1",
+    "remark-parse": "^10.0.0",
+    "remark-rehype": "^9.0.0",
     "rimraf": "^3.0.2",
-    "unified": "^8.4.2"
-  },
-  "dependencies": {}
+    "ts-jest": "^27.0.4",
+    "typescript": "^4.3.5",
+    "unified": "^10.1.0"
+  }
 }

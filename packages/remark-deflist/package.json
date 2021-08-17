@@ -4,30 +4,26 @@
   "license": "MIT",
   "description": "Remark plugin for pandoc-style definition lists.",
   "author": "Alex Shaw <alex.shaw.as@gmail.com>",
-  "main": "lib/index.js",
-  "module": "src/index.js",
+  "sideEffects": false,
+  "type": "module",
+  "exports": "./lib/index.js",
+  "types": "lib/index.d.ts",
   "files": [
-    "lib",
-    "src"
+    "lib/"
   ],
   "keywords": [
     "remark",
     "remark-plugin"
   ],
-  "repository": {
-    "url": "https://github.com/Symbitic/remark-plugins/tree/master/packages/remark-deflist",
-    "type": "git"
-  },
-  "engines": {
-    "node": ">=8"
-  },
+  "repository": "https://github.com/Symbitic/remark-plugins/tree/master/packages/remark-deflist",
+  "bugs": "https://github.com/Symbitic/remark-plugins/issues",
   "scripts": {
-    "build": "babel --root-mode upward --ignore \"**/*.spec.js\" --out-dir lib src"
+    "build": "tsc"
   },
   "dependencies": {
-    "mdast-util-from-markdown": "^0.8.4",
-    "mdast-util-to-markdown": "^0.6.1",
-    "mdast-util-to-string": "^2.0.0",
-    "unist-util-visit": "^2.0.3"
+    "mdast-util-from-markdown": "^1.0.0",
+    "mdast-util-to-markdown": "^1.1.1",
+    "mdast-util-to-string": "^3.1.0",
+    "unist-util-visit": "^4.0.0"
   }
 }

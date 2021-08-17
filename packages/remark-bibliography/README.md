@@ -1,5 +1,9 @@
 # remark-bibliography
 
+[![CI/CD Status](https://github.com/Symbitic/remark-plugins/workflows/main/badge.svg)](https://github.com/Symbitic/remark-plugins/actions)
+[![MIT License](https://img.shields.io/github/license/Symbitic/remark-plugins)](https://github.com/Symbitic/remark-plugins/blob/master/LICENSE.md)
+[![stars](https://img.shields.io/github/stars/Symbitic/remark-plugins.svg)](https://github.com/Symbitic/remark-plugins)
+
 [Remark](https://remark.js.org/) plugin for adding citations and bibliographies to Markdown documents.
 
 Bibliographies are included by specifying the `bibliography` field in the YAML frontmatter metadata
@@ -11,6 +15,17 @@ Files are resolved relative to the path of the markdown file.
 
 BibJSON is the only format currently supported, but support for other formats like BibTeX,
 MODS, and RIS is planned. Pull requests are welcome.
+
+## Install
+
+This package is [ESM only](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c):
+Node 12+ is needed to use it and it must be `import`ed instead of `require`d.
+
+[npm](https://docs.npmjs.com/cli/install):
+
+```sh
+npm install remark-bibliography
+```
 
 ## Example
 
@@ -52,16 +67,10 @@ Which locale the citations use. Supported options:
 Which citation style to use for inline citations and the bibliography.
 Supported options: `apa`, `chicago`, `mla`, and `vancouver` (default: `chicago`).
 
-## Installation
-
-```bash
-npm install --save remark-bibliography
-```
-
 ## Usage
 
 ```javascript
-import unified from 'unified'
+import { unified } from 'unified'
 import markdown from 'remark-parse'
 import html from 'rehype-stringify'
 import remark2rehype from 'remark-rehype'
@@ -80,4 +89,4 @@ unified()
 
 ## License
 
-[MIT](LICENSE.md) &copy; Alex Shaw
+[MIT](LICENSE.md) © Alex Shaw

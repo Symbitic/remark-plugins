@@ -1,11 +1,26 @@
 # remark-deflist
 
+[![CI/CD Status](https://github.com/Symbitic/remark-plugins/workflows/main/badge.svg)](https://github.com/Symbitic/remark-plugins/actions)
+[![MIT License](https://img.shields.io/github/license/Symbitic/remark-plugins)](https://github.com/Symbitic/remark-plugins/blob/master/LICENSE.md)
+[![stars](https://img.shields.io/github/stars/Symbitic/remark-plugins.svg)](https://github.com/Symbitic/remark-plugins)
+
 [Remark](https://remark.js.org/) plugin for adding support for pandoc-style definition lists to Markdown.
 
 Adds three new node types to [MDAST](https://github.com/syntax-tree/mdast): `descriptionlist`, `descriptionterm`, and `descriptiondetails`.
 When using [rehype](https://github.com/rehypejs/rehype), these will be stringified as `dl`, `dt`, and `dd` respectively.
 
 Mostly compatible with the [pandoc]/[PHP Markdown Extra] syntax. The only difference is that multi-paragraph descriptions are not currently supported.
+
+## Install
+
+This package is [ESM only](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c):
+Node 12+ is needed to use it and it must be `import`ed instead of `require`d.
+
+[npm](https://docs.npmjs.com/cli/install):
+
+```sh
+npm install remark-deflist
+```
 
 ## Example
 
@@ -76,31 +91,26 @@ Indent
 : (*verb*) To add whitespace to make ugly code beautiful.
 ```
 
-## Installation
-
-```bash
-npm install --save remark-deflist
-```
-
 ## Usage
 
 ```javascript
-import unified from 'unified'
+import { unified } from 'unified'
 import markdown from 'remark-parse'
 import html from 'rehype-stringify'
 import remark2rehype from 'remark-rehype'
-import deflist from 'remark-deflist'
+import meta from 'remark-meta'
 
 unified()
   .use(markdown)
-  .use(deflist)
+  .use(meta)
   .use(remark2rehype)
   .use(html)
 ```
 
 ## License
 
-[MIT](LICENSE.md) &copy; Alex Shaw
+[MIT](LICENSE.md) © Alex Shaw
 
 [pandoc]: https://pandoc.org/MANUAL.html#definition-lists
+
 [PHP Markdown Extra]: https://michelf.ca/projects/php-markdown/extra/#def-list

@@ -4,31 +4,27 @@
   "license": "MIT",
   "description": "Adds YAML/TOML metadata to a VFile.",
   "author": "Alex Shaw <alex.shaw.as@gmail.com>",
-  "main": "lib/index.js",
-  "module": "src/index.js",
+  "sideEffects": false,
+  "type": "module",
+  "exports": "./lib/index.js",
+  "types": "lib/index.d.ts",
   "files": [
-    "lib",
-    "src"
+    "lib/"
   ],
   "keywords": [
     "remark",
     "remark-plugin"
   ],
-  "repository": {
-    "url": "https://github.com/Symbitic/remark-plugins/tree/master/packages/remark-meta",
-    "type": "git"
-  },
-  "engines": {
-    "node": ">=8"
-  },
+  "repository": "https://github.com/Symbitic/remark-plugins/tree/master/packages/remark-meta",
+  "bugs": "https://github.com/Symbitic/remark-plugins/issues",
   "scripts": {
-    "build": "babel --root-mode upward --ignore \"**/*.spec.js\" --out-dir lib src"
+    "build": "tsc"
   },
   "dependencies": {
-    "js-yaml": "^3.14.1",
-    "mdast-util-to-string": "^2.0.0",
+    "js-yaml": "^4.1.0",
+    "mdast-util-to-string": "^3.1.0",
     "toml": "^3.0.0",
-    "unist-util-select": "^3.0.4",
-    "unist-util-visit": "^2.0.3"
+    "unist-util-select": "^4.0.0",
+    "unist-util-visit": "^4.0.0"
   }
 }

@@ -1,9 +1,9 @@
 /**
  * Derived from https://github.com/citation-js/name/blob/master/src/input.js
  */
-const punctutationMatcher = string => string.replace(/$|( )|(?!^)(?=[A-Z])/g, '\\.?$1')
-const getListMatcher = list => `(?:${list.join('|')})\\b`
-const getSplittingRegex = (matcher, flags) => new RegExp(`(?:^| )(${matcher}$)`, flags)
+const punctutationMatcher = (str: string) => str.replace(/$|( )|(?!^)(?=[A-Z])/g, '\\.?$1')
+const getListMatcher = (list: string[]) => `(?:${list.join('|')})\\b`
+const getSplittingRegex = (matcher: string, flags: string) => new RegExp(`(?:^| )(${matcher}$)`, flags)
 
 const titles = [
   'mr', 'mrs', 'ms', 'miss', 'dr', 'herr', 'monsieur', 'hr', 'frau',
@@ -62,38 +62,38 @@ const particleSplitter = new RegExp(`(?:^| )(/\p{Uppercase}/u.source.*$)`)
 // const endSplitter = getSplittingRegex(`(?:${/\p{Lowercase}/u.source}.*|${particleMatcher}.*|\\S*)`)
 const endSplitter = new RegExp(`(?:^| )((?:/\p{Lowercase}/u.source.*|${particleMatcher}.*|\\S*)$)`)
 
-export default function parseName (name = '') {
+export default function parseName(name: string = '') {
   if (typeof name !== 'string') {
     name = name + ''
   }
 
-  let start = ''
-  let mid = ''
-  let end = ''
+  let start: string = ''
+  let mid: string = ''
+  let end: string = ''
 
   if (/[^.], /.test(name)) {
     // reversed name
     const parts = name.split(', ')
-    end = parts.shift()
+    end = parts.shift() as string
     const suffixMatch = RegExp(suffixMatcher).exec(parts.join(', '))
     start = parts.splice(suffixMatch && suffixMatch.index !== 0 ? 0 : -1, 1)[0]
     mid = parts.join(', ')
   } else {
     const parts = name.split(suffixSplitter, 2)
-    const main = parts.shift().split(endSplitter, 2)
+    const main = (parts.shift() as string).split(endSplitter, 2)
     start = main[0]
     end = main[1]
-    mid = parts.pop()
+    mid = parts.pop() as string
   }
 
-  const [ , droppingParticle, given ] = start.match(titleSplitter)
+  const [ , droppingParticle, given ] = start.match(titleSplitter) as RegExpMatchArray
   const suffix = mid
   const [ family, nonDroppingParticle ] = end.split(particleSplitter, 2).reverse()
 
   if (!given && family) {
     return family.includes(' ') ? { literal: family } : { family }
   } else if (family) {
-    const nameObject = {
+    const nameObject: Record<string, string> = {
       'dropping-particle': droppingParticle,
       given,
       suffix,
@@ -102,7 +102,11 @@ export default function parseName (name = '') {
     }
 
     // remove empty parts (easier than if statement for every part)
-    Object.keys(nameObject).forEach(key => { if (!nameObject[key]) { delete nameObject[key] } })
+    Object.keys(nameObject).forEach((key) => {
+      if (!nameObject[key]) {
+        delete nameObject[key]
+      }
+    })
 
     return nameObject
   } else {
