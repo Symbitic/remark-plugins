@@ -1,5 +1,4 @@
-import test, { ExecutionContext } from 'ava';
-import citations from './citations.js'
+import citations from './citations'
 
 type Case = [ string, any, Record<string, any>, any? ]
 
@@ -52,21 +51,8 @@ const fixtures = [
   case1
 ]
 
-async function macro(t: ExecutionContext, tree: any, items: any, opts?: any) {
-  const result = citations(tree, items, opts)
-  t.snapshot(result)
-}
-
-macro.title = (name: string) => `citations should parse a ${name}`;
-
-for (const fixture of fixtures) {
-  const [ name, tree, item, opts ] = fixture
-  test.skip(name, macro, tree, item, opts);
-}
-/*
 describe.each(fixtures)('citations', (name, tree, items, opts) => {
   it(`should ${name}`, () => {
     expect(citations(tree, items, opts)).toMatchSnapshot()
   })
 })
-*/

@@ -1,5 +1,4 @@
 /* eslint-env jest */
-/*
 import bibliography from './index'
 import html from 'rehype-stringify'
 import markdown from 'remark-parse'
@@ -32,8 +31,4 @@ describe.each(tests)('remark-bibliography', (desc, file, source) => {
   it(`should ${desc}`, () => {
     return expect(parse(file, source)).resolves.toMatchSnapshot()
   })
-})
-*/
-test('remark-bibliography', () => {
-  expect(2+2).toBe(4);
 })

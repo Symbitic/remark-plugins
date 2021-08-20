@@ -1,5 +1,5 @@
-import parseDate from './utils/date.js'
-import parseName from './utils/name.js'
+import parseDate from './utils/date'
+import parseName from './utils/name'
 
 export type RECORD_TYPE = 'article' | 'book' | 'booklet' | 'proceedings' | 'mastersthesis'
   | 'inbook' | 'incollection' | 'conference' | 'inproceedings' | 'phdthesis'
