@@ -1,6 +1,6 @@
 {
   "name": "remark-meta",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "license": "MIT",
   "description": "Adds YAML/TOML metadata to a VFile.",
   "author": "Alex Shaw <alex.shaw.as@gmail.com>",
