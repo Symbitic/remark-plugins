@@ -1,5 +1,4 @@
-/* eslint-env jest */
-/*
+import test, { ExecutionContext } from 'ava';
 import bibjson from './bibjson.js'
 
 const basic = `{
@@ -31,12 +30,22 @@ const fixtures = [
   [ 'a basic entry', basic ]
 ]
 
+async function macro(t: ExecutionContext, input: any) {
+  const result = bibjson(input)
+  t.snapshot(result)
+}
+
+macro.title = (name: string) => `bibjson should parse a ${name}`;
+
+for (const fixture of fixtures) {
+  const [ name, source ] = fixture
+  test(name, macro, source);
+}
+
+/*
 describe.each(fixtures)('bibjson', (name, source) => {
   it(`should parse ${name}`, () => {
     expect(bibjson(source)).toMatchSnapshot()
   })
 })
 */
-test('bibjson', () => {
-  expect(2+2).toBe(4);
-})
